@@ -11,7 +11,7 @@ if [ "$ARCH" = "iphoneos-arm" ]; then
          ROOT_PREFIX="$destination"
       fi
    fi
-else
+elif [ "$ARCH" = "iphoneos-arm64" ]; then 
    ROOT_PREFIX="/var/jb"
 fi
 

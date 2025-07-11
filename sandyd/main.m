@@ -5,14 +5,14 @@
 #import <xpc/xpc.h>
 #import <dlfcn.h>
 #import <HBLogWeak.h>
-#import <libroot.h>
+#import <roothide.h>
 #import <sandbox_private.h>
 #import <sandyd.h>
 #import "sandbox_compat.h"
 
 void createExtensionPlist(void)
 {
-	NSString *targetPath = JBROOT_PATH_NSSTRING(@"/usr/lib/sandyd_global.plist");
+	NSString *targetPath = jbroot(@"/usr/lib/sandyd_global.plist");
 	NSMutableArray *extensions = [NSMutableArray new];
 
 	char *extension = NULL;
@@ -56,7 +56,7 @@ NSString *issueExtension(NSDictionary *extensionDict, audit_token_t auditToken)
 	if (!typeOfExtension) return nil;
 
 	if ([typeOfExtension isEqualToString:@"file"]) {
-		NSString *path = extensionDict[@"path"];
+		NSString *path = jbroot(extensionDict[@"path"]);
 		outToken = compat_sandbox_extension_issue_file_to_process(extensionClass.UTF8String, path.UTF8String, 0, auditToken);
 	} else if ([typeOfExtension isEqualToString:@"generic"]) {
 		outToken = compat_sandbox_extension_issue_generic_to_process(extensionClass.UTF8String, 0, auditToken);
@@ -98,7 +98,7 @@ xpc_object_t getProcessExtensions(xpc_connection_t sourceConnection, const char 
 	HBLogDebugWeak(@"[libSandySupport getProcessExtensions] sourceIdentifier=%@ profileName=%@", sourceIdentifier, nsProfileName);
 
 	__block xpc_object_t extensionArray = xpc_array_create(NULL, 0);
-	NSString *profileRootPath = JBROOT_PATH_NSSTRING(@"/Library/libSandy");
+	NSString *profileRootPath = jbroot(@"/Library/libSandy");
 	NSString *profilePath = [profileRootPath stringByAppendingPathComponent:[nsProfileName stringByAppendingPathExtension:@"plist"]].stringByStandardizingPath;
 
 	if (![profilePath hasPrefix:profileRootPath]) {

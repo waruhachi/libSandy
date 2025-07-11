@@ -1,5 +1,7 @@
 ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
 TARGET := iphone:clang:16.5:15.0
+else ifeq ($(THEOS_PACKAGE_SCHEME),roothide)
+TARGET := iphone:clang:16.5:15.0
 else
 TARGET := iphone:clang:14.5:8.0
 endif
@@ -12,6 +14,8 @@ libsandy_FILES = libSandy.m
 libsandy_CFLAGS = -fobjc-arc -Iheaders
 ifeq ($(THEOS_PACKAGE_SCHEME),rootless)
 libsandy_LDFLAGS += -install_name @rpath/libsandy.dylib
+else ifeq ($(THEOS_PACKAGE_SCHEME),roothide)
+libsandy_LDFLAGS += -install_name @loader_path/.jbroot/usr/lib/libsandy.dylib
 else
 libsandy_CFLAGS += -D XINA_SUPPORT=1
 endif
