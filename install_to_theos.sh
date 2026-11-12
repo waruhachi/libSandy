@@ -6,10 +6,12 @@ cp -Rv "./.theos/obj/libsandy.dylib" "$THEOS/lib"
 
 make clean
 make FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=rootless ONLY_LIBRARY=1
+mkdir -p "$THEOS/lib/iphone/rootless"
 cp -Rv "./.theos/obj/libsandy.dylib" "$THEOS/lib/iphone/rootless"
 
 make clean
 make FINALPACKAGE=1 THEOS_PACKAGE_SCHEME=roothide ONLY_LIBRARY=1
+mkdir -p "$THEOS/lib/iphone/roothide"
 cp -Rv "./.theos/obj/libsandy.dylib" "$THEOS/lib/iphone/roothide"
 
 cp -v "./libSandy.h" "$THEOS/include"
